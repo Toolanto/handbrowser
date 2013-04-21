@@ -9,14 +9,13 @@ width = None
 height = None
 
 if width is None:
-    width = int(cv.GetCaptureProperty(capture, cv.CV_CAP_PROP_FRAME_WIDTH))
+  width = int(cv.GetCaptureProperty(capture, cv.CV_CAP_PROP_FRAME_WIDTH))
 else:
-	cv.SetCaptureProperty(capture,cv.CV_CAP_PROP_FRAME_WIDTH,width)    
-
+  cv.SetCaptureProperty(capture,cv.CV_CAP_PROP_FRAME_WIDTH,width)    
 if height is None:
-	height = int(cv.GetCaptureProperty(capture, cv.CV_CAP_PROP_FRAME_HEIGHT))
+  height = int(cv.GetCaptureProperty(capture, cv.CV_CAP_PROP_FRAME_HEIGHT))
 else:
-	cv.SetCaptureProperty(capture,cv.CV_CAP_PROP_FRAME_HEIGHT,height) 
+  cv.SetCaptureProperty(capture,cv.CV_CAP_PROP_FRAME_HEIGHT,height) 
 
 result = cv.CreateImage((width,height),cv.IPL_DEPTH_8U,3) 
 
@@ -30,7 +29,7 @@ def scrollImage(rect):
   for r in rect:
     count = count + int(r[0][0])
   temp_avg=count/len(rect)
-  print "{0} {1}".format(avg,temp_avg)
+  #print "{0} {1}".format(avg,temp_avg)
   if avg +range < temp_avg  or avg == 0: #la prima volta imposto la media
     avg = temp_avg
     return 1

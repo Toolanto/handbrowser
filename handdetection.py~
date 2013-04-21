@@ -21,6 +21,7 @@ else:
 result = cv.CreateImage((width,height),cv.IPL_DEPTH_8U,3) 
 
 
+
 avg = 0 #inizializzazione media
 def scrollImage(rect):
   global avg
@@ -29,7 +30,7 @@ def scrollImage(rect):
   for r in rect:
     count = count + int(r[0][0])
   temp_avg=count/len(rect)
-  print "{0} {1}".format(avg,temp_avg)
+  #print "{0} {1}".format(avg,temp_avg)
   if avg +range < temp_avg  or avg == 0: #la prima volta imposto la media
     avg = temp_avg
     return 1
