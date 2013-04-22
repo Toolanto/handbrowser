@@ -1,32 +1,39 @@
-import cv
-import Image
-import pygame
+from pygame import *
 
 class ImageDisplay:
 
-  def __init__(self, namew):
-    self._namew = namew
-    cv.NamedWindow(namew,0)
-    cv.ResizeWindow(namew,800,600)
+  def __init__(self,width,height):
+    self.width = width
+    self.height = height
+    display.init()	
+    self.screen = display.set_mode([width,height])
 
   # load image es. 0.jpg; 1.jpg ...
   def load_image(self,path,ext):
     imgs = []
     for i in [0,1,2]:
       temp = "{0}.".format(i)
-      imgs.append(cv.LoadImage(path+temp+ext))
+      imgs.append(image.load(path+temp+ext)) 
     return imgs
 
-  def display_image(self, index, path, ext):
-    imgs = obj.load_image(path,ext)
-    while True:
-      cv.ShowImage(self._namew,imgs[index])
-      k = cv.WaitKey(10)
-      if k == 102:
-        break
+  def display_image(self,path,ext):
+    running = True
+    while running:
+      imgs = self.load_image(path,ext)
+      #center the image
+      x = (self.width-imgs[0].get_width())/2
+      y = (self.height-imgs[0].get_height())/2
+      self.screen.blit(imgs[0],(x,y))
+      display.flip()
+      if len(event.get(QUIT))>0:
+          running = False
+    
 
-obj = ImageDisplay("browser")
-obj.display_image(0,"image/","jpg")
+
+
+if __name__=='__main__':
+  obj = ImageDisplay(800,600)
+  obj.display_image("image/","jpg")
 
 
 
