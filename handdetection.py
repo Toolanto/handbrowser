@@ -30,12 +30,12 @@ class HandDetection:
     temp_avg=count/len(rect)
     if self.avg +range < temp_avg  or self.avg == 0: #la prima volta imposto la media
       self.avg = temp_avg
-      return 1
+      return (1,self.avg)
     elif self.avg - range > temp_avg:	
       self.avg = temp_avg
-      return -1
+      return (-1,self.avg)
     else:
-      return 0
+      return (0,self.avg)
 
 
   def detectHand(self,image, handCascade):
