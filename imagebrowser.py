@@ -7,33 +7,39 @@ class ImageDisplay:
     self.height = height
     display.init()	
     self.screen = display.set_mode([width,height])
+    display.set_caption("HandBrowser")
 
   # load image es. 0.jpg; 1.jpg ...
-  def load_image(self,path,ext):
+  def load_images(self,path,ext):
     imgs = []
     for i in [0,1,2]:
       temp = "{0}.".format(i)
       imgs.append(image.load(path+temp+ext)) 
-    return imgs
+    return imgs #return Surface list of images
 
-  def display_image(self,path,ext):
-    running = True
-    while running:
-      imgs = self.load_image(path,ext)
-      #center the image
-      x = (self.width-imgs[0].get_width())/2
-      y = (self.height-imgs[0].get_height())/2
-      self.screen.blit(imgs[0],(x,y))
-      display.flip()
-      if len(event.get(QUIT))>0:
-          running = False
+  def display_image(self,path,ext,index=0):
+    imgs = self.load_images(path,ext)
+    #check if image is bigger than window
+    img_w, img_h = imgs[index].get_size()
+    if img_w > self.width or img_h > self.height:
+      imgs[index] = transform.scale(imgs[index],(800,600))
+    #center image	
+    x = (self.width-imgs[index].get_width())/2
+    y = (self.height-imgs[index].get_height())/2
+    self.screen.blit(imgs[index],(x,y))
+    display.flip()
+      
     
 
 
 
 if __name__=='__main__':
   obj = ImageDisplay(800,600)
-  obj.display_image("image/","jpg")
+  running = True
+  while running:
+    obj.display_image("image/","jpg",1)
+    if len(event.get(QUIT))>0:
+          running = False
 
 
 
