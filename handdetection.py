@@ -21,7 +21,6 @@ class HandDetection:
     self.w = cv.CreateImage((self.width,self.height),cv.IPL_DEPTH_8U,3) 
     self.avg = 0 #inizializzazione media
 
-
   def scrollImage(self,rect):
     range = 2 #definizione margine di errore
     count = 0
@@ -37,13 +36,18 @@ class HandDetection:
     else:
       return (0,self.avg)
 
-
-  def detectHand(self,image, handCascade):
+  def loadHaarcascade(self,name):
+    return cv.Load(name)  
+  
+  def detectHand(self,handCascade):
+    image = cv.QueryFrame(self.capture)
     min_size = (20,20)
     image_scale = 2
     haar_scale = 1.2
     min_neighbors = 2
     haar_flags = 0
+    state = None
+    avg_x = None
 
     # Allocate the temporary images
     gray = cv.CreateImage((image.width, image.height), 8, 1)
@@ -60,9 +64,9 @@ class HandDetection:
 
     # Detect the hand
     hand = cv.HaarDetectObjects(smallImage, handCascade, cv.CreateMemStorage(0),haar_scale, min_neighbors, haar_flags, min_size)
-    # If hand are found
+    # If hand was found
     if hand:
-      print self.scrollImage(hand)
+      state, avg_x = self.scrollImage(hand)
       #check the color
       #create rectangle
       for ((x, y, w, h), n) in hand:
@@ -73,17 +77,14 @@ class HandDetection:
 	cv.Rectangle(image, pt1, pt2, cv.RGB(255, 0, 0), 3, 8, 0)
       cv.SetImageROI(image, (pt1[0],pt1[1],pt2[0] - pt1[0],int((pt2[1] - pt1[1]) * 0.7)))	
     cv.ResetImageROI(image)
-    return image
+    return (image,state,avg_x) #return image, state (0,1,-1), avg_x cordinate
 
 
 if __name__=='__main__':
-
-
   handD = HandDetection("camera")
-  handCascade = cv.Load("aGest.xml")
+  handCascade = handD.loadHaarcascade("aGest.xml")
   while True:
-    img = cv.QueryFrame(handD.capture)
-    image = handD.detectHand(img, handCascade)
+    image = handD.detectHand(handCascade)[0]
     cv.ShowImage("camera", image)
     k = cv.WaitKey(10);
     if k == 102:

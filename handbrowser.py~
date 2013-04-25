@@ -1,0 +1,15 @@
+import handdetection
+import imagebrowser
+import sys
+import pygame
+
+if __name__=='__main__':
+  path = sys.argv[1]
+  obj = imagebrowser.ImageDisplay(800,600)
+  running = True
+  move_x = 0
+  image_i= 0
+  while running:
+    obj.display_image(path,"jpg",image_i,move_x,0)
+    if len(pygame.event.get(QUIT))>0:
+          running = False
