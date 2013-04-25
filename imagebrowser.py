@@ -33,6 +33,7 @@ class ImageDisplay:
     #center image	
     x = (self.width-imgs[index].get_width())/2+xi
     y = (self.height-imgs[index].get_height())/2
+    self.screen.fill(000)
     self.screen.blit(imgs[index],(x,y))
     display.flip()
       
@@ -58,6 +59,7 @@ if __name__=='__main__':
     elif (result[1]!=0 and result[1]!=None):
       offsset = result[2] - start
       move_x = offsset 
+    print result[0:]
     obj.display_image(path,"jpg",image_i,move_x,0)
     if len(event.get(QUIT))>0:
           running = False
