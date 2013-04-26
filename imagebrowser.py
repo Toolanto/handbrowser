@@ -1,6 +1,7 @@
 from pygame import *
 import handdetection
 import sys
+import cv
 
 class ImageDisplay:
 
@@ -42,6 +43,7 @@ class ImageDisplay:
 
 
 if __name__=='__main__':
+  time.delay(10)
   path = sys.argv[1]
   obj = ImageDisplay(800,600)
   running = True
@@ -49,20 +51,28 @@ if __name__=='__main__':
   offsset = 0
   move_x = 0
   image_i= 0
-  hd = handdetection.HandDetection("detection")
+  first = True
+  hd = handdetection.HandDetection("detection",800,600)
   handcascade = hd.loadHaarcascade("aGest.xml")
   while running:
     result = hd.detectHand(handcascade)
-    if (result[1] == 0):
-      start = result[2]
-      offsset = result[2]
+    if (result[1] == 0 and first):
+      start = hd.width-result[2]
+      offsset = hd.width-result[2]
+      first = False
+    elif (result[1] == None):
+      start = 0
+      offsset = 0
+      move_x = 0
+      first = True
     elif (result[1]!=0 and result[1]!=None):
-      offsset = result[2] - start
+      offsset = hd.width - result[2] - start
       move_x = offsset 
-    print result[0:]
+    print result[1:]
     obj.display_image(path,"jpg",image_i,move_x,0)
-    if len(event.get(QUIT))>0:
-          running = False
+    k = hd.showImage("detection", result[0])
+    if len(event.get(QUIT))>0 or k == 102:
+      running = False
 
 
 

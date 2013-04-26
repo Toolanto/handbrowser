@@ -13,7 +13,7 @@ class HandDetection:
     if width is None:
       self.width = int(cv.GetCaptureProperty(self.capture, cv.CV_CAP_PROP_FRAME_WIDTH))
     else:
-      cv.SetCaptureProperty(capture,cv.CV_CAP_PROP_FRAME_WIDTH,width)    
+      cv.SetCaptureProperty(self.capture,cv.CV_CAP_PROP_FRAME_WIDTH,width)    
     if height is None:
       self.height = int(cv.GetCaptureProperty(self.capture, cv.CV_CAP_PROP_FRAME_HEIGHT))
     else:
@@ -22,7 +22,7 @@ class HandDetection:
     self.avg = 0 #inizializzazione media
 
   def scrollImage(self,rect):
-    range = 2 #definizione margine di errore
+    range = 10 #definizione margine di errore
     count = 0
     for r in rect:
       count = count + int(r[0][0])
@@ -78,6 +78,10 @@ class HandDetection:
       cv.SetImageROI(image, (pt1[0],pt1[1],pt2[0] - pt1[0],int((pt2[1] - pt1[1]) * 0.7)))	
     cv.ResetImageROI(image)
     return (image,state,avg_x) #return image, state (0,1,-1), avg_x cordinate
+
+  def showImage(self,name,image):
+    cv.ShowImage(name,image)
+    return cv.WaitKey(10);
 
 
 if __name__=='__main__':
