@@ -38,10 +38,6 @@ class ImageDisplay:
     self.screen.blit(imgs[index],(x,y))
     display.flip()
       
-    
-
-
-
 if __name__=='__main__':
   time.delay(10)
   path = sys.argv[1]
@@ -52,26 +48,26 @@ if __name__=='__main__':
   move_x = 0
   image_i= 0
   first = True
+  imgs = obj.load_images(path,"jpg")
   hd = handdetection.HandDetection("detection",800,600)
   handcascade = hd.loadHaarcascade("aGest.xml")
   while running:
     result = hd.detectHand(handcascade)
-    if (result[1] == 0 and first):
-      start = hd.width-result[2]
-      if (start >= 200 and start <= 600):
-        offsset = hd.width-result[2]
-        first = False
-      else:
-        start = 0
-    elif (result[1] == None):
-      start = 0
-      offsset = 0
-      move_x = 0
+    #detect hand fist
+    if result[1] == 0 and first:
+      start = result[2]
+      first = False
+    if result[1] != 0 and result[1] != None:
+      offset = hd.width - result[2] - start - 700
+      start = result[2]
+      move_x = offset
+    if result[1] == None or result[2] == None:
       first = True
-    elif (result[1]!=0 and result[1]!=None):
-      offsset = hd.width - result[2] - start
-      move_x = offsset 
-    print result[1:]
+      move_x = 0
+    if move_x > 20 and image_i < len(imgs):
+      image_i+=1
+    elif move_x < 20 and image_i > 0:
+      image_i-=1
     obj.display_image(path,"jpg",image_i,move_x,0)
     k = hd.showImage("detection", result[0])
     if len(event.get(QUIT))>0 or k == 102:
