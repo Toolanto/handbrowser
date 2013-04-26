@@ -18,28 +18,28 @@ class ImageDisplay:
     for i in [0,1,2]:
       temp = "{0}.".format(i)
       imgs.append(image.load(path+temp+ext)) 
-    return imgs #return Surface list of images
+    self.imgs = imgs #return Surface list of images
+    return self.imgs
 
   #show image
   #path where are the images
   #index select an image
   #xi translate on x
   #translate on y
-  def display_image(self,path,ext,index=0,xi=0,yi=0):
-    imgs = self.load_images(path,ext)
+  def display_image(self,path,ext,index,xi=0,yi=0):
     #check if image is bigger than window
-    img_w, img_h = imgs[index].get_size()
+    img_w, img_h = self.imgs[index].get_size()
     if img_w > self.width or img_h > self.height:
-      imgs[index] = transform.scale(imgs[index],(800,600))
+      self.imgs[index] = transform.scale(self.imgs[index],(800,600))
     #center image	
-    x = (self.width-imgs[index].get_width())/2+xi
-    y = (self.height-imgs[index].get_height())/2
+    x = (self.width-self.imgs[index].get_width())/2+xi
+    y = (self.height-self.imgs[index].get_height())/2
     self.screen.fill(000)
-    self.screen.blit(imgs[index],(x,y))
+    self.screen.blit(self.imgs[index],(x,y))
     display.flip()
       
 if __name__=='__main__':
-  time.delay(10)
+  time.delay(1000)
   path = sys.argv[1]
   obj = ImageDisplay(800,600)
   running = True
