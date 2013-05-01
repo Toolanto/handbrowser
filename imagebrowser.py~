@@ -61,24 +61,21 @@ if __name__=='__main__':
       first = False
     elif result[1] != 0 and result[1] != None:
       offsset = result[2] - start
-      #start = offsset
-      move_x -= offsset 
+      move_x -= offsset
     elif result[1] == None or result[2] == None:
       first = True
       move_x = 0
       
-    if move_x > 20 and image_i < len(imgs) -1 and not(first):
+    if move_x > 50 and image_i < len(imgs) -1 and not(first):
       index = index + 1
       offsset = 0
       move_x = 0
       start = result[2]
-      #first = True
-    elif move_x < -20 and image_i > 0 and not(first):
+    elif move_x < -50 and image_i > 0 and not(first):
       index = index - 1
       offsset = 0
       move_x = 0
       start = result[2]
-      #first = True
     
     print start, offsset,move_x,index
     image_i = index
