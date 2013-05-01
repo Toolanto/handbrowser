@@ -47,32 +47,40 @@ if __name__=='__main__':
   offsset = 0
   move_x = 0
   image_i= 0
-  index = 1
+  index = 0
   first = True
   imgs = obj.load_images(path,"jpg")
   hd = handdetection.HandDetection("detection",800,600)
   handcascade = hd.loadHaarcascade(haarcascade)
   while running:
-    time.wait(100)
-    print image_i,index
+    stop = False
     result = hd.detectHand(handcascade)
-    #detect hand fist
+
     if result[1] == 0 and first:
       start = result[2]
       first = False
-    if result[1] != 0 and result[1] != None:
-      offsset = hd.width - result[2] - start - 700
-      start = result[2]
-      move_x = offsset
-    if result[1] == None or result[2] == None:
+    elif result[1] != 0 and result[1] != None:
+      offsset = result[2] - start
+      #start = offsset
+      move_x -= offsset 
+    elif result[1] == None or result[2] == None:
       first = True
       move_x = 0
+      
     if move_x > 20 and image_i < len(imgs) -1 and not(first):
       index = index + 1
-      print ">20 - {0}".format(image_i)
-    elif move_x < 20 and image_i > 0 and not(first):
+      offsset = 0
+      move_x = 0
+      start = result[2]
+      #first = True
+    elif move_x < -20 and image_i > 0 and not(first):
       index = index - 1
-      print "<20 - {0}".format(image_i)
+      offsset = 0
+      move_x = 0
+      start = result[2]
+      #first = True
+    
+    print start, offsset,move_x,index
     image_i = index
     obj.display_image(path,"jpg",image_i,move_x,0)
     k = hd.showImage("detection", result[0])
