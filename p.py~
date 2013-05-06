@@ -1,0 +1,7 @@
+import os
+from pygame import *
+
+nameofimgs = os.listdir("image/")
+print nameofimgs 
+image.load(str(nameofimgs[0]))
+
