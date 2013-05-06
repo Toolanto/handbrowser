@@ -27,15 +27,15 @@ class HandDetection:
     for r in rect:
       count = count + int(r[0][0])
     temp_avg=count/len(rect)
+    if self.avg == 0:#la prima volta imposto la media
+      self.avg =temp_avg
+      return (0,self.avg)
     if self.avg +range < temp_avg:
       self.avg = temp_avg
       return (1,self.avg)
     elif self.avg - range > temp_avg:	
       self.avg = temp_avg
       return (-1,self.avg) 
-    elif self.avg == 0:#la prima volta imposto la media
-      self.avg =temp_avg
-      return (0,self.avg)
     else:
       return (0,self.avg)
 
@@ -47,8 +47,8 @@ class HandDetection:
     min_size = (20,20)
     image_scale = 2
     haar_scale = 1.2
-    min_neighbors = 2
-    haar_flags = 0
+    min_neighbors = 5
+    haar_flags = cv.CV_HAAR_DO_CANNY_PRUNING #0
     state = None
     avg_x = None
 
