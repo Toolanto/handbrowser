@@ -48,7 +48,7 @@ class HandDetection:
     image_scale = 2
     haar_scale = 1.2
     min_neighbors = 5
-    haar_flags = cv.CV_HAAR_DO_CANNY_PRUNING #0
+    haar_flags = 0
     state = None
     avg_x = None
 
