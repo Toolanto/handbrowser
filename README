@@ -7,7 +7,7 @@ This programm is an browser of image that function by hand.
 HOW FUNCTION
 You have to use python 2.x.
 
-  python imagebrowser.py <image directory> <haarcascade>
+  python exec.py <image directory> <haarcascade>
 
 An example:
-  python imagebroeser.py "image/" "aGest.xml"
+  python exec.py "image/" "aGest.xml"
